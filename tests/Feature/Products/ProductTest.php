@@ -12,18 +12,19 @@ class ProductTest extends TestCase
 {
     use RefreshDatabase;
     protected array $products;
-    private string $url = "/api/v1/product";
+    private string $url = "api/v1/product";
 
     public function setUp():void
     {
         parent::setUp();
         $this->products = Product::factory()->create()->toArray();
+
     }
     public function test_show_all_products(): void
     {
+
         $response = $this->get($this->url);
-        $response->assertStatus(200)
-                 ->assertJsonStructure();
+        $response->assertStatus(200);
 
     }
 
@@ -37,6 +38,9 @@ class ProductTest extends TestCase
     public function test_create_product():void
     {
         $response = $this->post($this->url,$this->products);
+        $this->assertDatabaseHas('products', [
+            'name' => $this->products['name']
+        ]);
         $response->assertStatus(201)
                  ->assertJsonStructure();
     }
@@ -55,6 +59,9 @@ class ProductTest extends TestCase
     public function test_delete_product():void
     {
         $response = $this->delete($this->url.'/'.$this->products['id']);
+        $this->assertDatabaseMissing('products',[
+            'name' => $this->products['name']
+        ]);
         $response->assertStatus(200)
             ->assertJsonStructure();
     }

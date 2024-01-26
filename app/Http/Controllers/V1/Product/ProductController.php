@@ -4,16 +4,12 @@ namespace App\Http\Controllers\V1\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
-use App\Http\Resources\V1\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
-use App\Traits\ApiResponse;
-use App\Traits\InfoResponse;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    use InfoResponse,ApiResponse;
+
     private ProductService $productService;
 
 
@@ -24,8 +20,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = ProductResource::collection(Product::paginate(15));
-        return $this->collectionDataResponse($products);
+        return $this->productService->getAllProducts();
     }
 
     /**
@@ -34,8 +29,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $request->validated();
-        $product = $this->productService->createProduct($request->all());
-
+        return $this->productService->createProduct($request->all());
     }
 
     /**
@@ -43,7 +37,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $this->productService->getProductById($product);
     }
 
     /**
@@ -51,7 +45,8 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        //
+        $request->validated();
+        return $this->productService->updateProduct($product,$request->all());
     }
 
     /**
@@ -59,6 +54,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        return $this->productService->deleteProduct($product);
     }
 }

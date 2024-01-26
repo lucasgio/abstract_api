@@ -1,20 +1,19 @@
 <?php
-
-
 namespace App\Repositories;
 
+use App\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
 
-class EloquentProductRepository implements ProductRepositoryInterface
+class ProductRepository implements ProductRepositoryInterface
 {
     public function getAll()
     {
-        return Product::all();
+        return Product::paginate(15);
     }
 
-    public function getById($id)
+    public function getById(Product $product)
     {
-        return Product::findOrFail($id);
+        return Product::findOrFail($product->id);
     }
 
     public function create(array $data)
@@ -22,16 +21,16 @@ class EloquentProductRepository implements ProductRepositoryInterface
         return Product::create($data);
     }
 
-    public function update($id, array $data)
+    public function update(Product $product, array $data)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($product->id);
         $product->update($data);
         return $product;
     }
 
-    public function delete($id)
+    public function delete(Product $product)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($product->id);
         $product->delete();
         return $product;
     }

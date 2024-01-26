@@ -18,8 +18,8 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'price' => $this->faker->price,
-            'quantity' => $this->faker->numerify(3)
+            'price' => $this->faker->randomNumber,
+            'quantity' => $this->faker->randomNumber
         ];
     }
 }

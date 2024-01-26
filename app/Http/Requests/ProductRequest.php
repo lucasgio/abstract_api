@@ -24,7 +24,7 @@ class ProductRequest extends BaseRequest
         return match($this->method()){
             'POST' => [
                 'name' => 'required|string|min:4',
-                'price' => 'required|string',
+                'price' => 'required|integer',
                 'quantity' => 'required|integer',
             ],
             'PUT' => [
