@@ -27,6 +27,11 @@ Before this step.You must have installed the most recent mysql driver on your co
 php artisan migrate
 ```
 
+**Setup Server**
+```bash
+php artisan serve
+```
+
 **Setup project** 
 ```bash
 php artisan key:generate
